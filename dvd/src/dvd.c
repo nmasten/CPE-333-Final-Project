@@ -1,6 +1,7 @@
 volatile int * const VG_ADDR = (int *)0x11100000;
 volatile int * const VG_COLOR = (int *)0x11140000;
 
+
 static void draw_dot(int X, int Y, int color);
 static void draw_horizontal_line(int X, int Y, int toX, int color);
 static void draw_background();
@@ -9,6 +10,8 @@ void wait(int seconds);
 static int checkY(int y, int vy);
 static int checkX(int x, int vx);
 
+volatile int const color_index = 1;
+unsigned int const colors[7] = {0xFF, 0x09, 0x0A, 0x0C, 0x0D, 0x0E, 0x29};
 unsigned int pattern[5][16] = {
 		    {0xFF, 0xFF, 0x00, 0x00, 0x00, 0xFF, 0x00, 0x00, 0x00, 0xFF, 0x00, 0xFF, 0xFF, 0x00, 0x00, 0x00},
 		    {0xFF, 0x00, 0xFF, 0x00, 0x00, 0xFF, 0x00, 0x00, 0x00, 0xFF, 0x00, 0xFF, 0x00, 0xFF, 0x00, 0x00},
@@ -23,6 +26,7 @@ void main(){
 	unsigned int curr_color = 36;
 	while(1){
 
+		
 		draw_background();
 		draw_dvd(x,y);
 		x+=vx;
@@ -61,32 +65,32 @@ static int checkX(int x, int vx) {
 }
 
 static void draw_horizontal_line(int X, int Y, int toX, int color) {
-	toX++;
-	for (; X != toX; X++) {
-		draw_dot(X, Y, color);
-	}
+		toX++;
+			for (; X != toX; X++) {
+						draw_dot(X, Y, color);
+							}
 }
 
 static void draw_background() {
-	for (int Y = 0; Y != 60; Y++) {
-		draw_horizontal_line(0, Y, 79, 0x00);
-	}
+		for (int Y = 0; Y != 60; Y++) {
+					draw_horizontal_line(0, Y, 79, 0x00);
+						}
 }
 
 static void draw_dvd(int x, int y) {
-	for (int i = y; i < y + 5; i++) {
-		for (int j = x; j < x + 16; j++) {
-			draw_dot(j, i, pattern[i-y][j-x]);
-		}
-	}
+	    for (int i = y; i < y + 5; i++) {
+		            for (int j = x; j < x + 16; j++) {
+				                draw_dot(j, i, pattern[i-y][j-x]);
+						        }
+			        }
 }
 
 static void draw_dot(int X, int Y, int color) {
-	*VG_ADDR = (Y << 7) | X;  // store into the address IO register
-	*VG_COLOR = color;  // store into the color IO register, which triggers
-					   	// the actual write to the framebuffer at the address
-					  	// previously stored in the address IO register
-}
+		*VG_ADDR = (Y << 7) | X;  // store into the address IO register
+					   	*VG_COLOR = color;  // store into the color IO register, which triggers
+					   		                    // the actual write to the framebuffer at the address
+					  		                    	                    // previously stored in the address IO register
+					   		                    	                    }
 
 
 void wait( int seconds )
@@ -106,3 +110,6 @@ void wait( int seconds )
         }
     }
 }
+					  
+					  
+
