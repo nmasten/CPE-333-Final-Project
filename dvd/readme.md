@@ -11,3 +11,5 @@ Run `make` to build the software. This produces a build directory, containing:
 You can also run:
 
  - `make clean` to remove the build directory
+ 
+ We ran and debugged this program using the Programmable OTTER
